@@ -1,0 +1,75 @@
+<section class="w-full h-full bg-cyan-200">
+    <section class="container mx-auto">
+        <div class="h-screen flex justify-center items-center">
+            <div class="shadow-lg bg-cyan-600 p-6 w-11/12 lg:w-1/2 space-y-4 rounded-lg">
+                <h2 class="text-2xl font-bold text-white">Register Now</h2>
+                <form class="space-y-4" [formGroup]="registerForm" (ngSubmit)="register()">
+                    <div>
+                        <div class="relative">
+                            <input type="text" formControlName="displayName" name="displayName" placeholder="Enter Your Name..." class="w-full px-8 py-4 border-2 shadow rounded-lg focus:outline-none focus:outline-cyan-600 focus:border-0">
+                            @if((registerForm.get("displayName")?.touched || registerForm.get("name")?.dirty)){
+                                @if(registerForm.get("displayName")?.valid){
+                                    <span class="absolute text-green-500 w-8 h-8 flex justify-center items-center rounded-full right-5 top-1/2 -translate-y-1/2"><mat-icon>check_circle</mat-icon></span>
+                                }
+                                @else{
+                                    <span class="absolute text-red-500 w-8 h-8 flex justify-center items-center rounded-full right-5 top-1/2 -translate-y-1/2"><mat-icon>close</mat-icon></span>
+                                }
+                            }
+                        </div>
+                        @if(registerForm.get("displayName")?.errors && (registerForm.get("displayName")?.touched || registerForm.get("displayName")?.dirty)){
+                            @if(registerForm.get("displayName")?.getError("required")){
+                                <p class="border-2 border-rose-700 px-8 py-4 rounded-lg shadow bg-rose-200">Display Name is Required</p>
+                            }
+                            @if(registerForm.get("displayName")?.getError("minLength")){
+                                <p class="border-2 border-rose-700 px-8 py-4 rounded-lg shadow bg-rose-200">Mush be of at least 3 Characters</p>
+                            }
+                        }
+                    </div>
+                    <div>
+                        <div class="relative">
+                            <input type="email" name="email" formControlName="email" placeholder="Enter an email..." class="w-full px-8 py-4 border-2 shadow rounded-lg focus:outline-none focus:outline-cyan-600 focus:border-0">
+                            @if((registerForm.get("email")?.touched || registerForm.get("name")?.dirty)){
+                                @if(registerForm.get("email")?.valid){
+                                    <span class="absolute text-green-500 w-8 h-8 flex justify-center items-center rounded-full right-5 top-1/2 -translate-y-1/2"><mat-icon>check_circle</mat-icon></span>
+                                }
+                                @else{
+                                    <span class="absolute text-red-500 w-8 h-8 flex justify-center items-center rounded-full right-5 top-1/2 -translate-y-1/2"><mat-icon>close</mat-icon></span>
+                                }
+                            }
+                        </div>
+                        @if(registerForm.get("email")?.errors && (registerForm.get("email")?.touched || registerForm.get("email")?.dirty)){
+                            @if(registerForm.get("email")?.getError("required")){
+                                <p class="border-2 border-rose-700 px-8 py-4 rounded-lg shadow bg-rose-200">Email is Required</p>
+                            }
+                            @if(registerForm.get("email")?.getError("email")){
+                                <p class="border-2 border-rose-700 px-8 py-4 rounded-lg shadow bg-rose-200">Mush be of Email Form</p>
+                            }
+                        }
+                    </div>
+                    <div>
+                        <div class="relative">
+                            <input type="password" name="password" formControlName="password" placeholder="Enter a password..." class="w-full px-8 py-4 border-2 shadow rounded-lg focus:outline-none focus:outline-cyan-600 focus:border-0">
+                            @if((registerForm.get("password")?.touched || registerForm.get("name")?.dirty)){
+                                @if(registerForm.get("password")?.valid){
+                                    <span class="absolute text-green-500 w-8 h-8 flex justify-center items-center rounded-full right-5 top-1/2 -translate-y-1/2"><mat-icon>check_circle</mat-icon></span>
+                                }
+                                @else{
+                                    <span class="absolute text-red-500 w-8 h-8 flex justify-center items-center rounded-full right-5 top-1/2 -translate-y-1/2"><mat-icon>close</mat-icon></span>
+                                }
+                            }
+                        </div>
+                        @if(registerForm.get("password")?.errors && (registerForm.get("password")?.touched || registerForm.get("password")?.dirty)){
+                            @if(registerForm.get("password")?.getError("required")){
+                                <p class="border-2 border-rose-700 px-8 py-4 rounded-lg shadow bg-rose-200">Password is Required</p>
+                            }
+                            @if(registerForm.get("password")?.getError("pattern")){
+                                <p class="border-2 border-rose-700 px-8 py-4 rounded-lg shadow bg-rose-200">Password must contain at least 1 special Character and at least 5 Characters or numbers</p>
+                            }
+                        }
+                    </div>
+                    <button type="submit" class="px-8 py-2 bg-cyan-400 hover:bg-cyan-500 transition-colors duration-300 shadow rounded-lg text-rose-50">Register</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</section>

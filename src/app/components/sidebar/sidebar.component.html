@@ -1,0 +1,66 @@
+<mat-toolbar class="mat-elevation-z3 relative z-10 flex justify-between items-center p-4 !h-[90px] !bg-cyan-100 dark:!bg-[--main-dark-color] dark:!text-white">
+    <div class="flex items-center">
+        <button mat-icon-button (click)="collapsed.set(!collapsed())">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <h2 class="text-xl">Chat App</h2>
+    </div>
+
+    <div class="flex items-center space-x-4">
+        <h3 class="text-lg hidden lg:block">Hello {{currentUser?.displayName}}</h3>
+        <div>
+            <button (click)="setProfile()"><img [src]="this.currentUser?.photoURL" alt="" class="rounded-full w-16 h-16 object-cover"></button>
+        </div>
+        <button class="hidden lg:block py-2 px-4 bg-cyan-300 hover:bg-cyan-500 duration-200 rounded-lg shadow text-sm font-medium" (click)="logOut()">Log Out</button>
+    </div>
+</mat-toolbar>
+<mat-sidenav-container class="h-[calc(100vh-90px)] dark:!bg-black">
+    <mat-sidenav opened mode="side" class="fixed left-0 top-0 bottom-0 !bg-cyan-100 dark:!bg-[--main-dark-color] dark:!text-white" [style.width]="sidenavWidth()">
+        <!-- <mat-sidenav></mat-sidenav> => has 2 states => opened | closed -->
+        <!-- it has 3 mode options => push - over - side -->
+        <div class="side-nav-header text-center mt-6">
+            <img [src]="this.currentUser?.photoURL ? this.currentUser?.photoURL : '../../../assets/images/user_1.png'" alt="" class="mx-auto rounded-full mb-4 object-cover" [style.width]="profilePicSize()" [style.height]="profilePicSize()">
+            <div class="header-text overflow-hidden h-16" [class]="{'opacity-0':collapsed(), '!h-0':collapsed()}">
+                <h2 class="text-sm m-0">My Account</h2>
+                <p class="text-xs">{{this.currentUser?.displayName}}</p>
+            </div>
+        </div>
+        <mat-nav-list>
+            @for(item of menuItems() ; track $index){
+                <a mat-list-item class="border-l-4 border-[rgba(0,0,0,0)]" [routerLink]="item.route" routerLinkActive="!border-blue-500" #rla="routerLinkActive" [activated]="rla.isActive">
+                    <mat-icon [fontSet]="rla.isActive ? 'material-icons' : 'material-icons-outlined'" matListItemIcon>{{item.icon}}</mat-icon>
+                    <!-- 'material-icons' => FOR icons in the fill state -->
+                    <!-- 'material-icons-outlined' => For icons in the outline state -->
+                    @if(!collapsed()){
+                        <span matListItemTitle>{{item.label}}</span>
+                    }
+                </a>
+            }
+            @if(is_light_mode){
+                <a mat-list-item (click)="modeToggle()">
+                    <mat-icon matListItemIcon>light_mode</mat-icon>
+                    @if(!collapsed()){
+                        <span matListItemTitle>Light Mode</span>
+                    }
+                </a>
+            }
+            @else {
+                <a mat-list-item (click)="modeToggle()">
+                    <mat-icon matListItemIcon>dark_mode</mat-icon>
+                    @if(!collapsed()){
+                        <span matListItemTitle>Dark Mode</span>
+                    }
+                </a>
+            }
+            <a mat-list-item (click)="logOut()">
+                <mat-icon matListItemIcon>logout</mat-icon>
+                @if(!collapsed()){
+                    <span matListItemTitle>Log Out</span>
+                }
+            </a>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class="p-6"> <!-- adds margin to the left by default and we need to remove this when the sidenav is collapsed => as needed -->
+        <ng-content></ng-content>
+    </mat-sidenav-content>
+</mat-sidenav-container>

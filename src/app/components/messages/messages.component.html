@@ -1,0 +1,67 @@
+<section>
+    <div>
+        <!-- 1)📝📝 chat message header => chatted_with_user_photo | chatted_with_user_name ==> start 🔥 -->
+            <div class="flex items-center space-x-5 mb-4">
+                @if(selectedChat$ | async ; as selectedChat){
+                    <img [src]="selectedChat.chatPic ? selectedChat.chatPic : './assets/images/user_1.png'" class="w-14 h-14 rounded-full object-cover" />
+                    <h2 class="!my-0 dark:!text-white">{{selectedChat.chatName}}</h2>
+                }
+                @else {
+                    @if(currentChat$ | async ; as currentChat){
+                        <img [src]="currentChat.chatPic ? currentChat.chatPic : './assets/images/user_1.png'" class="w-14 h-14 rounded-full object-cover" />
+                        <h2 class="!my-0 dark:!text-white">{{currentChat.chatName}}</h2>
+                    }
+                    @else {
+                        <h2 class="dark:!text-white">Messages</h2>
+                    }
+                }
+            </div>
+        <!-- 1)📝📝 chat message header => chatted_with_user_photo | chatted_with_user_name ==> end 💀 -->
+        
+        
+        <mat-divider></mat-divider>
+        
+        
+        <!-- 2)📝📝 chat messages => your_and_chatted_with_user_messages ==> start 🔥 -->
+            <div #chatArea class="h-[calc(100vh-350px)] bg-white w-full flex flex-col overflow-y-auto">
+                @if(chatMessages$ && chatMessages$.length){
+                    @for(message of chatMessages$; track $index){
+                        <div class="flex w-full items-center p-2 first:mt-auto" [ngClass]="currentUser?.uid === message.senderId ? 'justify-end' : 'justify-start'">
+                            <div class="relative p-3 pe-28 pb-6 text-xl font-bold rounded-lg" [ngClass]="currentUser?.uid === message.senderId ? 'bg-rose-300' : 'bg-rose-50'"> 
+                                {{message.text}}
+                                <span class="absolute right-[5px] bottom-[5px] text-[rgba(0,0,0,0.6)] text-sm">{{message.sentDate | customFirebaseDate}}</span>
+                            </div> 
+                        </div>
+                    }
+                }
+                @else if(currentChatMessages$ | async){
+                    @for(message of currentChatMessages$ | async ; track $index){
+                        <div class="flex w-full items-center p-2 first:mt-auto" [ngClass]="currentUser?.uid === message.senderId ? 'justify-end' : 'justify-start'">
+                            <div class="relative p-3 pe-28 pb-6 text-xl font-bold rounded-lg" [ngClass]="currentUser?.uid === message.senderId ? 'bg-rose-300' : 'bg-rose-50'"> 
+                                {{message.text}}
+                                <span class="absolute right-[5px] bottom-[5px] text-[rgba(0,0,0,0.6)] text-sm">{{message.sentDate | customFirebaseDate}}</span>
+                            </div> 
+                        </div>
+                    }
+                }
+                @else {
+                }
+                <div #endOfChat></div>
+            </div>
+        <!-- 2)📝📝 chat messages => your_and_chatted_with_user_messages ==> end 💀 -->
+        
+        
+        
+        <!-- 3)📝📝 chat messages send => input_message_field | submit_message_button ==> start 🔥 -->
+            <div #inputMessages>
+                <mat-form-field appearance="outline" class="w-full">
+                    <input matInput placeholder="Input your Message..." [formControl]="messageControl" (keydown.enter)="sendMessage()" />
+                    <button mat-icon-button matSuffix>
+                        <mat-icon (click)="sendMessage()">send</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+        <!-- 3)📝📝 chat messages send => input_message_field | submit_message_button ==> end 💀 -->
+        
+        </div>
+</section>

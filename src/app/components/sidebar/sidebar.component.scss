@@ -1,0 +1,5 @@
+:host *{
+    @apply transition-all ease-in-out duration-500;
+}
+// :host => to target the component
+// wild card * => to target all what is inside the component

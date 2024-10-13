@@ -1,0 +1,44 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import '../node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
+
+:root{
+    --main-dark-color: #004f4f;
+}
+
+
+// @use './../node_modules/@angular/material' as mat;
+// @include mat.core();
+
+// $custom-theme: mat.define-theme(
+//     (
+//         color:(
+//             theme-type: light,
+//             primary: mat.$azure-palette, // $azure-palette -> pre-defined color by angular material 18
+//             use-system-variables: true,
+//         )
+//     )
+// );
+
+// html{
+//     @include mat.core-theme($custom-theme);
+//     @include mat.toolbar-theme($custom-theme);
+//     @include mat.button-theme($custom-theme);
+//     @include mat.icon-button-theme($custom-theme);
+//     @include mat.sidenav-theme($custom-theme);
+//     @include mat.tabs-thene ($custom-theme);
+//     @include mat.list-theme($custom-theme);
+//     @include mat.card-theme($custom-theme);
+//     @include mat.select-theme($custom-theme);
+//     @include mat.form-field-theme($custom-theme);
+//     @include mat.button-toggle-theme ($custom-theme);
+//     @include mat.menu-theme($custom-theme);
+//     @include mat.divider-theme($custom-theme);
+// }

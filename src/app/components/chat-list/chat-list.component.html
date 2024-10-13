@@ -1,0 +1,36 @@
+<div class="dark:!text-white">
+    <div class="m-6">
+        <mat-form-field appearance="fill">
+            <input
+                matInput 
+                placeholder="Search for users..." 
+                type="text" 
+                [formControl]="searchControl"
+                [matAutocomplete]="users"
+            />
+        </mat-form-field>
+        <mat-autocomplete #users="matAutocomplete">
+            <!-- 1st way to filter users based on the user input search string is by using a custom pipe -->
+            @for(user of allUsers | filterUsers : searchControl.value : currentUser ; track $index){ 
+                <mat-option [value]="user?.displayName" (click)="createChat(user)">
+                    {{user?.displayName}}
+                </mat-option>
+            }
+        </mat-autocomplete>
+    </div>
+
+    <mat-selection-list [multiple]="false" [formControl]="this._ChatService.chatListControl">
+        <mat-divider></mat-divider>
+        @for(chat of userChats$ | async ; track chat.id){
+            <mat-list-option [value]="chat.id" class="!h-auto" [routerLink]="(isLargeScreen$ | async) ? null: '/messages'">
+                <img matListItemAvatar [src]="chat.chatPic ? chat.chatPic : './assets/images/user_1.png'" /> <!-- matListAvatar => will provide a nice rounded shape and correct position -->
+                <p mat-line class="flex justify-between items-center"> <!-- mat-line => specify that it's a line of the list -->
+                    <span class="font-bold dark:!text-white">{{chat.chatName?.split(" ",2)?.join(" ")}}</span>
+                    <span class="text-xs text-[rgba(0,0,0,0.6)] dark:!text-white">{{chat.lastMessageDate | customFirebaseDate}}</span>
+                </p>
+                <p mat-line class="dark:!text-white">{{chat.lastMessage}}</p>
+            </mat-list-option>
+            <mat-divider></mat-divider>
+        }
+    </mat-selection-list>
+</div>
